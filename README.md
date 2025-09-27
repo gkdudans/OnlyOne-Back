@@ -12,9 +12,10 @@
 - **프로젝트 기간**: 2025.07 ~ 2025.09
 - **프로젝트 참여 인원**: 6 (풀스택 개발)
 - **시연 영상** https://drive.google.com/file/d/1P80JXV3FX1BPlqDrWWR8dHxgiOI-zlSb/view
+- **담당 역할**: 정산(Settlement)·결제(Payment) 도메인 풀스택 개발
 <br></br>
 
-## 🔨 기술 스택 - 정산·결제 도메인
+## 🔨 기술 스택 - 정산·결제 도메인 
 <div align="center">
   <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=Java&logoColor=white" style="height: 26px; margin: 3px;">
   <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=Spring&logoColor=white" style="height: 26px; margin: 3px;">
