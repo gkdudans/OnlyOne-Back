@@ -49,8 +49,6 @@ src/main/resources/application-test.yml
 src/main/resources/firebase/
 
 .DS_Store
-CLAUDE.md
-.claude/
 spy.log
 src/test/resources/application-test.yml
 src/test/resources/data.sql
