@@ -9,31 +9,31 @@ import com.example.onlyone.domain.schedule.entity.ScheduleStatus;
 import com.example.onlyone.domain.schedule.entity.UserSchedule;
 import com.example.onlyone.domain.schedule.repository.ScheduleRepository;
 import com.example.onlyone.domain.schedule.repository.UserScheduleRepository;
-import com.example.onlyone.domain.settlement.dto.event.SettlementProcessEvent;
+// import com.example.onlyone.domain.settlement.dto.event.SettlementProcessEvent; // 미사용 (eventType은 문자열로만 사용)
 import com.example.onlyone.domain.settlement.dto.response.SettlementResponseDto;
 import com.example.onlyone.domain.settlement.dto.response.UserSettlementDto;
 import com.example.onlyone.domain.settlement.entity.*;
 import com.example.onlyone.domain.settlement.repository.SettlementRepository;
-import com.example.onlyone.domain.settlement.repository.TransferRepository;
+// import com.example.onlyone.domain.settlement.repository.TransferRepository; // 미사용
 import com.example.onlyone.domain.settlement.repository.UserSettlementRepository;
 import com.example.onlyone.domain.user.entity.User;
 import com.example.onlyone.domain.user.service.UserService;
 import com.example.onlyone.domain.wallet.entity.*;
 import com.example.onlyone.domain.wallet.repository.WalletRepository;
-import com.example.onlyone.domain.wallet.repository.WalletTransactionRepository;
-import com.example.onlyone.domain.wallet.service.WalletService;
+// import com.example.onlyone.domain.wallet.repository.WalletTransactionRepository; // 미사용
+// import com.example.onlyone.domain.wallet.service.WalletService; // 미사용
 import com.example.onlyone.global.exception.CustomException;
 import com.example.onlyone.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.context.ApplicationEventPublisher;
+// import org.springframework.context.ApplicationEventPublisher; // 미사용
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Scheduled;
+// import org.springframework.scheduling.annotation.Scheduled; // 미사용
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionSynchronization;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
+// import org.springframework.transaction.support.TransactionSynchronization; // 미사용
+// import org.springframework.transaction.support.TransactionSynchronizationManager; // 미사용
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -47,13 +47,13 @@ public class SettlementService {
     private final UserService userService;
     private final ClubRepository clubRepository;
     private final ScheduleRepository scheduleRepository;
-    private final UserScheduleRepository userScheduleRepository;
+//    private final UserScheduleRepository userScheduleRepository; // 미사용
     private final SettlementRepository settlementRepository;
     private final UserSettlementRepository userSettlementRepository;
     private final WalletRepository walletRepository;
-    private final NotificationService notificationService;
-    private final WalletService walletService;
-    private final ApplicationEventPublisher eventPublisher;
+//    private final NotificationService notificationService; // 미사용
+//    private final WalletService walletService; // 미사용
+//    private final ApplicationEventPublisher eventPublisher; // 미사용 (Spring 이벤트 방식 미적용)
     private final OutboxAppender outboxAppender;
 
     @Transactional(rollbackFor = Exception.class)

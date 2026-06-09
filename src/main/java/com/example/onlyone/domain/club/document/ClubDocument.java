@@ -13,7 +13,7 @@ import org.springframework.data.elasticsearch.annotations.DateFormat;
 import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Document(indexName = "clubs")
+@Document(indexName = "clubs", createIndex = false)
 @Setting(settingPath = "/elasticsearch/club-settings.json")
 @Mapping(mappingPath = "/elasticsearch/club-mapping.json")
 @Getter

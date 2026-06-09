@@ -23,14 +23,16 @@ public class FirebaseConfig {
 
   @Bean
   public FirebaseApp firebaseApp() throws IOException {
+    ClassPathResource resource = new ClassPathResource(SERVICE_ACCOUNT_PATH);
+    if (!resource.exists()) {
+      log.warn("Firebase service account not found at '{}'. Firebase push notifications disabled.", SERVICE_ACCOUNT_PATH);
+      return null;
+    }
 
     if (FirebaseApp.getApps().stream().noneMatch(app -> app.getName().equals(FirebaseApp.DEFAULT_APP_NAME))) {
       try {
         FirebaseOptions options = FirebaseOptions.builder()
-            .setCredentials(
-                GoogleCredentials.fromStream(
-                    new ClassPathResource(SERVICE_ACCOUNT_PATH).getInputStream())
-            )
+            .setCredentials(GoogleCredentials.fromStream(resource.getInputStream()))
             .build();
         log.info("Successfully initialized FirebaseApp");
         return FirebaseApp.initializeApp(options);
@@ -46,6 +48,7 @@ public class FirebaseConfig {
 
   @Bean
   public FirebaseMessaging firebaseMessaging(FirebaseApp firebaseApp) {
+    if (firebaseApp == null) return null;
     return FirebaseMessaging.getInstance(firebaseApp);
   }
 

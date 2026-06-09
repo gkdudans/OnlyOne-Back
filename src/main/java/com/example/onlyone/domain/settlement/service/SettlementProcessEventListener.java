@@ -27,7 +27,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+// DEAD CODE: SettlementKafkaEventListener(Kafka 방식)로 대체됨. publishEvent() 호출처 없음.
+// @Component
 @RequiredArgsConstructor
 @Slf4j
 public class SettlementProcessEventListener {
