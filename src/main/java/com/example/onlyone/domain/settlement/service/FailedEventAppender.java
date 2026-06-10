@@ -28,7 +28,8 @@ public class FailedEventAppender {
                                                 Long memberWalletId,
                                                 Long leaderId,
                                                 Long leaderWalletId,
-                                                Long amount) {
+                                                Long amount,
+                                                long memberBalance) {
         try {
             // 1. DTO로 변환
             UserSettlementStatusEvent eventDto = new UserSettlementStatusEvent(
@@ -41,7 +42,8 @@ public class FailedEventAppender {
                     memberWalletId,
                     leaderId,
                     leaderWalletId,
-                    amount
+                    amount,
+                    memberBalance
             );
 
             // 2. JSON 직렬화

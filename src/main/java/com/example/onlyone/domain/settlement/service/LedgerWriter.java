@@ -74,6 +74,20 @@ public class LedgerWriter {
         // 2) 이미 처리된 operationId 조회
         Set<String> existing = new HashSet<>(walletTransactionRepository.findExistingOperationIds(candidateoperationIds));
 
+        // 2-1) SUCCESS 이벤트인데 FAILED 레코드가 존재하는 경우 → COMPLETED로 업데이트
+        Set<String> successIdsToUpdate = new HashSet<>();
+        for (JsonNode root : events) {
+            if (!"SUCCESS".equals(root.path("type").asText())) continue;
+            String op = root.path("operationId").asText();
+            if (op == null || op.isBlank()) continue;
+            if (existing.contains(op + ":OUT")) successIdsToUpdate.add(op + ":OUT");
+            if (existing.contains(op + ":IN"))  successIdsToUpdate.add(op + ":IN");
+        }
+        if (!successIdsToUpdate.isEmpty()) {
+            walletTransactionRepository.updateFailedToCompleted(successIdsToUpdate, WalletTransactionStatus.COMPLETED);
+            existing.removeAll(successIdsToUpdate); // 업데이트된 건은 INSERT 대상에서 제외
+        }
+
         // 3) WalletTransaction / Transfer 생성
         Map<String, WalletTransaction> walletTransactionHashMap = new HashMap<>();
         for (JsonNode root : events) {
@@ -85,6 +99,7 @@ public class LedgerWriter {
             long memberWalletId   = root.path("memberWalletId").asLong();
             long leaderWalletId   = root.path("leaderWalletId").asLong();
             long amount           = root.path("amount").asLong();
+            long memberBalance    = root.path("memberBalance").asLong(-1L); // 이벤트 스냅샷 잔액
 
             Wallet memberWallet = walletRepository.getReferenceById(memberWalletId);
             Wallet leaderWallet = walletRepository.getReferenceById(leaderWalletId);
@@ -96,13 +111,14 @@ public class LedgerWriter {
             // OUTGOING
             String outId = operationId + ":OUT";
             if (!existing.contains(outId)) {
+                long balance = memberBalance >= 0 ? memberBalance : memberWallet.getPostedBalance();
                 WalletTransaction outTransaction = WalletTransaction.builder()
                         .operationId(outId)
                         .type(Type.OUTGOING)
                         .wallet(memberWallet)
                         .targetWallet(leaderWallet)
                         .amount(amount)
-                        .balance(memberWallet.getPostedBalance())
+                        .balance(balance)
                         .walletTransactionStatus(status)
                         .build();
                 walletTransactionList.add(outTransaction);

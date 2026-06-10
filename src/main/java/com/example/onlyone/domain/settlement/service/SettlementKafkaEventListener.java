@@ -104,6 +104,8 @@ public class SettlementKafkaEventListener {
 
     // StructuredTaskScope + Semaphore(백프레셔 제어용)
     private void processSettlementWithStructuredScope(SettlementProcessEvent event) {
+        log.info("settlement.process.start settlementId={} participantCount={}",
+                event.getSettlementId(), event.getTargetUserIds().size());
         try (StructuredTaskScope.ShutdownOnFailure scope =
                      new StructuredTaskScope.ShutdownOnFailure("settlement-parallel", Thread.ofVirtual().factory())) {
 
@@ -139,8 +141,13 @@ public class SettlementKafkaEventListener {
             scope.joinUntil(Instant.now().plusSeconds(60)); // [P1-2] 타임아웃
             scope.throwIfFailed();
 
-            completeSettlement(event, totalProcessedAmount.get());
+            long total = totalProcessedAmount.get();
+            log.info("settlement.process.complete settlementId={} totalAmount={}",
+                    event.getSettlementId(), total);
+            completeSettlement(event, total);
         } catch (Exception e) {
+            log.warn("settlement.process.failed settlementId={} reason={}",
+                    event.getSettlementId(), e.getMessage());
             userSettlementService.recoverSettlementToFailed(event.getSettlementId()); // [P0-1]
             throw new CustomException(ErrorCode.SETTLEMENT_PROCESS_FAILED);
         }
@@ -159,6 +166,9 @@ public class SettlementKafkaEventListener {
                 );
                 if (succeeded) {
                     totalAmount.addAndGet(costPerUser);
+                } else {
+                    log.warn("settlement.participant.skipped settlementId={} participantId={} reason=INSUFFICIENT_BALANCE",
+                            settlementId, participantId);
                 }
                 return succeeded;
 

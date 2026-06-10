@@ -9,6 +9,7 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.CommonErrorHandler;
 import org.springframework.kafka.listener.CommonLoggingErrorHandler;
 import org.springframework.kafka.listener.ContainerProperties;
 
@@ -23,6 +24,7 @@ import static org.springframework.kafka.listener.ContainerProperties.AckMode.MAN
 public class KafkaConsumerConfig {
 
     private final KafkaProperties props;
+    private final CommonErrorHandler defaultErrorHandler;
 
     @Bean
     public ConsumerFactory<String, String> userSettlementLedgerConsumerFactory() {
@@ -83,6 +85,7 @@ public class KafkaConsumerConfig {
         f.setConsumerFactory(settlementProcessConsumerFactory());
         f.setBatchListener(true);
         f.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL);
+        f.setCommonErrorHandler(defaultErrorHandler); // DLQ 핸들러 연결
         return f;
     }
 

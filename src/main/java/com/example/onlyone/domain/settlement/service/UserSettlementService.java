@@ -23,6 +23,7 @@ import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 @Log4j2
@@ -72,26 +73,23 @@ public class UserSettlementService {
             if (captured != 1) {
                 throw new CustomException(ErrorCode.WALLET_HOLD_CAPTURE_FAILED);
             }
+            long postDeductBalance = memberWallet.getPostedBalance() - amount; // 차감 후 잔액
             us.updateUserSettlement(SettlementStatus.COMPLETED, LocalDateTime.now());
             userSettlementRepository.save(us);
-            outboxAppender.append(
-                    "UserSettlement",
-                    us.getUserSettlementId(),
-                    "ParticipantSettlementResult",
-                    String.valueOf(memberWalletId),
-                    Map.of(
-                            "type", "SUCCESS",
-                            "operationId", operationId,
-                            "occurredAt", java.time.Instant.now().toString(),
-                            "settlementId", settlementId,
-                            "userSettlementId", us.getUserSettlementId(),
-                            "participantId", participantId,
-                            "memberWalletId", memberWalletId,
-                            "leaderId", leaderId,
-                            "leaderWalletId", leaderWalletId,
-                            "amount", amount
-                    )
-            );
+            var payload = new HashMap<String, Object>();
+            payload.put("type", "SUCCESS");
+            payload.put("operationId", operationId);
+            payload.put("occurredAt", java.time.Instant.now().toString());
+            payload.put("settlementId", settlementId);
+            payload.put("userSettlementId", us.getUserSettlementId());
+            payload.put("participantId", participantId);
+            payload.put("memberWalletId", memberWalletId);
+            payload.put("leaderId", leaderId);
+            payload.put("leaderWalletId", leaderWalletId);
+            payload.put("amount", amount);
+            payload.put("memberBalance", postDeductBalance);
+            outboxAppender.append("UserSettlement", us.getUserSettlementId(),
+                    "ParticipantSettlementResult", String.valueOf(memberWalletId), payload);
             return true;
         } catch (CustomException e) {
             if (e.getErrorCode() == ErrorCode.WALLET_HOLD_CAPTURE_FAILED) {
@@ -101,7 +99,8 @@ public class UserSettlementService {
                 userSettlementRepository.save(us);
                 failedEventAppender.appendFailedUserSettlementEvent(
                         settlementId, us.getUserSettlementId(), participantId,
-                        memberWalletId, leaderId, leaderWalletId, amount
+                        memberWalletId, leaderId, leaderWalletId, amount,
+                        memberWallet.getPostedBalance() // 차감 실패 → 잔액 그대로
                 );
                 return false;
             }

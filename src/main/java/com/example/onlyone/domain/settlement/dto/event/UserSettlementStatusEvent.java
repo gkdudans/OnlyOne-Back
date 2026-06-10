@@ -24,11 +24,5 @@ public class UserSettlementStatusEvent {
     private long leaderId;
     private long leaderWalletId;
     private long amount;
-
-
-    @Data
-    public static class Snapshots {
-        private Long memberPostedBalance;
-        private Long leaderPostedBalance;
-    }
+    private long memberBalance; // 처리 시점 참가자 지갑 잔액 스냅샷
 }
