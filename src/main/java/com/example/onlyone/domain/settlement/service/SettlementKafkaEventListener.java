@@ -25,6 +25,7 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -121,7 +122,7 @@ public class SettlementKafkaEventListener {
                     }
 
                     try {
-                        return processParticipantWithRetry(
+                        boolean succeeded = processParticipantWithRetry(
                                 event.getSettlementId(),
                                 event.getLeaderId(),
                                 event.getLeaderWalletId(),
@@ -129,40 +130,37 @@ public class SettlementKafkaEventListener {
                                 event.getCostPerUser(),
                                 totalProcessedAmount
                         );
+                        return succeeded ? participantId : null;
                     } finally {
                         concurrencyLimit.release();
                     }
                 });
             }
-            scope.join();
+            scope.joinUntil(Instant.now().plusSeconds(60)); // [P1-2] 타임아웃
             scope.throwIfFailed();
 
-            // 모든 참가자 완료 후 리더 크레딧 및 상태 업데이트
             completeSettlement(event, totalProcessedAmount.get());
         } catch (Exception e) {
+            userSettlementService.recoverSettlementToFailed(event.getSettlementId()); // [P0-1]
             throw new CustomException(ErrorCode.SETTLEMENT_PROCESS_FAILED);
         }
     }
 
-    private Long processParticipantWithRetry(Long settlementId, Long leaderId, Long leaderWalletId,
-                                             Long participantId, Long costPerUser, AtomicLong totalAmount) {
+    // true: 차감 성공, false: 잔액 부족 관대 처리(건너뜀), throws: 시스템 오류 → 재시도
+    private boolean processParticipantWithRetry(Long settlementId, Long leaderId, Long leaderWalletId,
+                                                Long participantId, Long costPerUser, AtomicLong totalAmount) {
         int maxRetries = 3;
         int retryDelay = 1000;
 
         for (int attempt = 1; attempt <= maxRetries; attempt++) {
             try {
-                // 참가자별 개별 트랜잭션 처리 (REQUIRES_NEW + Redis Lua 게이트는 UserSettlementService 내부)
-                userSettlementService.processParticipantSettlement(
-                        settlementId,
-                        leaderId,
-                        leaderWalletId,
-                        participantId,
-                        costPerUser
+                boolean succeeded = userSettlementService.processParticipantSettlement(
+                        settlementId, leaderId, leaderWalletId, participantId, costPerUser
                 );
-                // 처리된 금액을 원자적으로 누적
-                totalAmount.addAndGet(costPerUser);
-
-                return participantId;
+                if (succeeded) {
+                    totalAmount.addAndGet(costPerUser);
+                }
+                return succeeded;
 
             } catch (Exception e) {
                 if (attempt == maxRetries) {
@@ -176,7 +174,7 @@ public class SettlementKafkaEventListener {
                 }
             }
         }
-        return participantId;
+        return false;
     }
 
     @Transactional

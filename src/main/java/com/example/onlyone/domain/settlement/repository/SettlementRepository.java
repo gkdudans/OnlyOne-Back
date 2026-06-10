@@ -34,6 +34,15 @@ public interface SettlementRepository extends JpaRepository<Settlement,Long> {
                       @Param("time") LocalDateTime time);
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query(value = """
+        UPDATE settlement
+           SET total_status = 'FAILED'
+         WHERE settlement_id = :id
+           AND total_status = 'IN_PROGRESS'
+    """, nativeQuery = true)
+    int markFailed(@Param("id") Long settlementId);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("delete from Settlement s where s.schedule.scheduleId = :scheduleId")
     void deleteByScheduleId(@Param("scheduleId") Long scheduleId);
 }

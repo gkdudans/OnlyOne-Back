@@ -47,7 +47,7 @@ public class SettlementService {
     private final UserService userService;
     private final ClubRepository clubRepository;
     private final ScheduleRepository scheduleRepository;
-//    private final UserScheduleRepository userScheduleRepository; // 미사용
+    private final UserScheduleRepository userScheduleRepository;
     private final SettlementRepository settlementRepository;
     private final UserSettlementRepository userSettlementRepository;
     private final WalletRepository walletRepository;
@@ -70,6 +70,11 @@ public class SettlementService {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
         
+        // 리더 권한 확인
+        userScheduleRepository.findByUserAndSchedule(user, schedule)
+                .filter(us -> us.getScheduleRole() == ScheduleRole.LEADER)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_CANNOT_CREATE_SETTLEMENT));
+
         // 종료된 스케줄인지 확인
         if (!(schedule.getScheduleStatus() == ScheduleStatus.ENDED
                 || schedule.getScheduleTime().isBefore(LocalDateTime.now()))) {

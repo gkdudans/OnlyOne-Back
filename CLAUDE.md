@@ -15,6 +15,7 @@
 - testing.md: 테스트 형식
 - domain.md: 도메인 명세
 - docs/settlement-flow.md: 정산 기능 흐름 분석 (Phase 1) — 컴포넌트 역할, 동시성 레이어, 발견된 문제점
+- docs/refactoring-plan.md: 리팩토링 계획 (Phase 3) — 우선순위별 문제점 목록 및 수정 방향
 
 ## Commands
 ### Build
