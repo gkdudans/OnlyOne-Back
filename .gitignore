@@ -9,6 +9,7 @@ src/main/generated/
 !**/src/main/**/build/
 !**/src/test/**/build/
 .claude/docs
+plan.md
 
 ### STS ###
 .apt_generated
