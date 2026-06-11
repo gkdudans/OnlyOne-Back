@@ -94,8 +94,8 @@ public class WalletServiceTest {
                 .wallet(wallet)
                 .targetWallet(targetWallet)
                 .type(Type.CHARGE)
-                .amount(5000)
-                .balance(15000)
+                .amount(5000L)
+                .balance(15000L)
                 .walletTransactionStatus(WalletTransactionStatus.COMPLETED)
                 .build();
 
@@ -103,8 +103,8 @@ public class WalletServiceTest {
                 .wallet(wallet)
                 .targetWallet(targetWallet)
                 .type(Type.OUTGOING)
-                .amount(10000)
-                .balance(12000)
+                .amount(10000L)
+                .balance(12000L)
                 .walletTransactionStatus(WalletTransactionStatus.COMPLETED)
                 .build();
 
@@ -139,7 +139,7 @@ public class WalletServiceTest {
         Schedule schedule = Schedule.builder()
                 .club(club)
                 .name("정산 테스트 스케줄")
-                .cost(10000)
+                .cost(10000L)
                 .location("구름스퀘어 강남")
                 .scheduleStatus(ScheduleStatus.CLOSED)
                 .userLimit(10)
@@ -149,7 +149,7 @@ public class WalletServiceTest {
         Settlement settlement = Settlement.builder()
                 .schedule(schedule)
                 .totalStatus(TotalStatus.COMPLETED)
-                .sum(10000)
+                .sum(10000L)
                 .receiver(another)
                 .build();
         settlementRepository.save(settlement);

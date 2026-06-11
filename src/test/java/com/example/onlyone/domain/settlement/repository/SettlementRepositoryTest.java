@@ -72,7 +72,7 @@ public class SettlementRepositoryTest {
                         .club(club)
                         .name("스케줄-ENDED")
                         .location("장소")
-                        .cost(1000)
+                        .cost(1000L)
                         .userLimit(10)
                         .scheduleStatus(ScheduleStatus.READY)
                         .scheduleTime(LocalDateTime.now().plusDays(1))
@@ -84,7 +84,7 @@ public class SettlementRepositoryTest {
                         .club(club)
                         .name("스케줄-IN_PROGRESS")
                         .location("장소")
-                        .cost(1000)
+                        .cost(1000L)
                         .userLimit(10)
                         .scheduleStatus(ScheduleStatus.READY)
                         .scheduleTime(LocalDateTime.now().plusDays(2))
@@ -96,7 +96,7 @@ public class SettlementRepositoryTest {
                         .schedule(scheduleEnded)
                         .totalStatus(TotalStatus.HOLDING)
                         .receiver(user)
-                        .sum(0)
+                        .sum(0L)
                         .build()
         );
 
@@ -105,7 +105,7 @@ public class SettlementRepositoryTest {
                         .schedule(scheduleInProgress)
                         .totalStatus(TotalStatus.IN_PROGRESS)
                         .receiver(user)
-                        .sum(0)
+                        .sum(0L)
                         .build()
         );
 

@@ -79,7 +79,7 @@ class PaymentServiceTest extends TestRedisContainerConfig {
     void setUp() {
         user = userRepository.findById(1L).orElseThrow();
         wallet = walletRepository.findByUser(user).orElseThrow();
-        wallet.updateBalance(0);
+        wallet.updateBalance(0L);
         walletRepository.saveAndFlush(wallet);
 
         when(userService.getCurrentUser()).thenReturn(user);

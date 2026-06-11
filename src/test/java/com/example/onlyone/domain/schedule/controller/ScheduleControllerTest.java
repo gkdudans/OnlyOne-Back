@@ -58,7 +58,7 @@ public class ScheduleControllerTest {
         ScheduleRequestDto requestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 10,
                 LocalDateTime.now().plusDays(1)
         );
@@ -76,7 +76,7 @@ public class ScheduleControllerTest {
         ScheduleRequestDto requestDto = new ScheduleRequestDto(
                 "온리원의 정모 온리원의 정모 온리원의 정모 온리원의 정모 온리원의 정모 온리원의 정모 온리원의 정모 온리원의 정모 온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 10,
                 LocalDateTime.now().plusDays(1)
         );
@@ -99,7 +99,7 @@ public class ScheduleControllerTest {
         ScheduleRequestDto requestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                -10000,
+                -10000L,
                 10,
                 LocalDateTime.now().plusDays(1)
         );
@@ -122,7 +122,7 @@ public class ScheduleControllerTest {
         ScheduleRequestDto requestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 10,
                 LocalDateTime.now().minusDays(1)
         );
@@ -145,7 +145,7 @@ public class ScheduleControllerTest {
         ScheduleRequestDto requestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 -10,
                 LocalDateTime.now().minusDays(1)
         );
@@ -168,7 +168,7 @@ public class ScheduleControllerTest {
         ScheduleRequestDto requestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 101,
                 LocalDateTime.now().minusDays(1)
         );
@@ -191,7 +191,7 @@ public class ScheduleControllerTest {
         ScheduleRequestDto requestDto = new ScheduleRequestDto(
                 "온리원의 정모 온리원의 정모 온리원의 정모 온리원의 정모 온리원의 정모 온리원의 정모 온리원의 정모 온리원의 정모 온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 10,
                 LocalDateTime.now().plusDays(1)
         );
@@ -214,7 +214,7 @@ public class ScheduleControllerTest {
         ScheduleRequestDto requestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                -10000,
+                -10000L,
                 10,
                 LocalDateTime.now().plusDays(1)
         );
@@ -237,7 +237,7 @@ public class ScheduleControllerTest {
         ScheduleRequestDto requestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 10,
                 LocalDateTime.now().minusDays(1)
         );
@@ -260,7 +260,7 @@ public class ScheduleControllerTest {
         ScheduleRequestDto requestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 -10,
                 LocalDateTime.now().plusDays(1)
         );
@@ -283,7 +283,7 @@ public class ScheduleControllerTest {
         ScheduleRequestDto requestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 101,
                 LocalDateTime.now().plusDays(1)
         );

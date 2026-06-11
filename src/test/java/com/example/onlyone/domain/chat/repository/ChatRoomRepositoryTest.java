@@ -108,7 +108,7 @@ class ChatRoomRepositoryTest {
         Schedule schedule = Schedule.builder()
                 .name("정기 모임 A")
                 .location("서울 강남")
-                .cost(10000)
+                .cost(10000L)
                 .userLimit(20)
                 .scheduleTime(LocalDateTime.now().plusDays(7))
                 .scheduleStatus(ScheduleStatus.READY)

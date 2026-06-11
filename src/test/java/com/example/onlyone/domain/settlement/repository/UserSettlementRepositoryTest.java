@@ -75,7 +75,7 @@ public class UserSettlementRepositoryTest {
                         .club(club)
                         .name("테스트 스케줄")
                         .location("장소")
-                        .cost(1000)
+                        .cost(1000L)
                         .userLimit(10)
                         .scheduleStatus(ScheduleStatus.ENDED)
                         .scheduleTime(LocalDateTime.now().minusHours(1))
@@ -87,7 +87,7 @@ public class UserSettlementRepositoryTest {
                         .schedule(schedule)
                         .totalStatus(TotalStatus.HOLDING)
                         .receiver(alice)
-                        .sum(3000)
+                        .sum(3000L)
                         .build()
         );
 

@@ -56,7 +56,7 @@ class UserServiceTest {
         MySettlementDto dto = new MySettlementDto(
                 1L,
                 1L,
-                10000,
+                10000L,
                 null,
                 SettlementStatus.COMPLETED,
                 "유저의 모임: 첫 번째 정기모임",

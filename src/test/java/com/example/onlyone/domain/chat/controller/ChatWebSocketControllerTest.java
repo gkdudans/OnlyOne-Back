@@ -1,18 +1,18 @@
 package com.example.onlyone.domain.chat.controller;
 
 import com.example.onlyone.domain.chat.dto.ChatMessageRequest;
-import com.example.onlyone.domain.chat.dto.ChatMessageResponse;
 import com.example.onlyone.domain.chat.service.AsyncMessageService;
+import com.example.onlyone.domain.chat.service.ChatPublisher;
 import com.example.onlyone.domain.user.entity.Status;
 import com.example.onlyone.domain.user.entity.User;
 import com.example.onlyone.domain.user.repository.UserRepository;
 import com.example.onlyone.global.exception.CustomException;
 import com.example.onlyone.global.exception.ErrorCode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.util.Optional;
 
@@ -23,17 +23,20 @@ import static org.mockito.ArgumentMatchers.*;
 class ChatWebSocketControllerTest {
 
     UserRepository userRepository;
-    SimpMessagingTemplate messagingTemplate;
+    ChatPublisher chatPublisher;
     AsyncMessageService asyncMessageService;
+    ObjectMapper objectMapper;
     ChatWebSocketController controller;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         userRepository = Mockito.mock(UserRepository.class);
-        messagingTemplate = Mockito.mock(SimpMessagingTemplate.class);
+        chatPublisher = Mockito.mock(ChatPublisher.class);
         asyncMessageService = Mockito.mock(AsyncMessageService.class);
+        objectMapper = new ObjectMapper();
+        objectMapper.findAndRegisterModules();
 
-        controller = new ChatWebSocketController(userRepository, asyncMessageService, messagingTemplate);
+        controller = new ChatWebSocketController(userRepository, asyncMessageService, chatPublisher, objectMapper);
     }
 
     private User mockUser(Long kakaoId, String nickname) {
@@ -47,7 +50,7 @@ class ChatWebSocketControllerTest {
     }
 
     @Test
-    @DisplayName("메시지 전송 성공 시, convertAndSend가 호출되고 저장은 비동기로 위임된다")
+    @DisplayName("메시지 전송 성공 시, chatPublisher.publish가 호출되고 저장은 비동기로 위임된다")
     void sendMessageSuccess() {
         Long roomId = 77L;
         Long userId = 1001L;
@@ -58,8 +61,7 @@ class ChatWebSocketControllerTest {
 
         controller.sendMessage(roomId, req);
 
-        String dest = "/sub/chat/" + roomId + "/messages";
-        then(messagingTemplate).should().convertAndSend(eq(dest), any(ChatMessageResponse.class));
+        then(chatPublisher).should().publish(eq(roomId), anyString());
         then(asyncMessageService).should().saveMessageAsync(roomId, req);
     }
 
@@ -77,7 +79,7 @@ class ChatWebSocketControllerTest {
                 .isInstanceOf(CustomException.class)
                 .hasMessage(ErrorCode.USER_NOT_FOUND.getMessage());
 
-        verifyNoInteractions(messagingTemplate);
+        verifyNoInteractions(chatPublisher);
         verifyNoInteractions(asyncMessageService);
     }
 
@@ -98,7 +100,7 @@ class ChatWebSocketControllerTest {
         assertThat(ex).isNotNull();
         assertThat(ex.getErrorCode()).isEqualTo(ErrorCode.MESSAGE_SERVER_ERROR);
 
-        verifyNoInteractions(messagingTemplate);
+        verifyNoInteractions(chatPublisher);
         verifyNoInteractions(asyncMessageService);
     }
 }

@@ -113,7 +113,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto pastScheduleRequestDto = new ScheduleRequestDto(
                 "온리원 첫 번째 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 10,
                 LocalDateTime.now().minusHours(2)   // 지난 시간
         );
@@ -122,7 +122,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto futureScheduleRequestDto = new ScheduleRequestDto(
                 "온리원 두 번째 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 10,
                 LocalDateTime.now().plusHours(2)    // 미래 시간
         );
@@ -160,7 +160,7 @@ public class ScheduleServiceTest {
 
         String name = "온리원의 정모";
         String location = "구름스퀘어 강남";
-        int cost = 10000;
+        long cost = 10000L;
         int userlimit = 10;
         LocalDateTime scheduleTime = LocalDateTime.now().plusHours(2);
 
@@ -204,7 +204,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().minusHours(2)
         );
@@ -240,7 +240,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().minusHours(2)
         );
@@ -278,7 +278,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -314,7 +314,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -322,7 +322,7 @@ public class ScheduleServiceTest {
 
         String name = "정기모임 수정 테스트";
         String location = "우리집";
-        int cost = 10000;
+        long cost = 10000L;
         int userLimit = 50;
         LocalDateTime scheduleTime = LocalDateTime.now().plusHours(4);
 
@@ -362,7 +362,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -379,7 +379,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto updateScheduleRequestDto = new ScheduleRequestDto(
                 "온리원 첫 번째 정모",
                 "구름스퀘어 강남",
-                200,
+                200L,
                 10,
                 LocalDateTime.now().plusHours(2)
         );
@@ -420,7 +420,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -437,7 +437,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto updateScheduleRequestDto = new ScheduleRequestDto(
                 "온리원 첫 번째 정모",
                 "구름스퀘어 강남",
-                200000,
+                200000L,
                 10,
                 LocalDateTime.now().plusHours(2)
         );
@@ -469,7 +469,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -482,7 +482,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto updateScheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모 수정본",
                 "역삼역",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -515,7 +515,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -524,7 +524,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto updateScheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모 수정본",
                 "역삼역",
-                150,
+                150L,
                 50,
                 LocalDateTime.now().plusHours(2)
         );
@@ -564,7 +564,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -573,7 +573,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto updateScheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모 수정본",
                 "역삼역",
-                150,
+                150L,
                 50,
                 LocalDateTime.now().plusHours(2)
         );
@@ -608,7 +608,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -648,7 +648,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -659,7 +659,7 @@ public class ScheduleServiceTest {
         Mockito.when(userService.getCurrentUser()).thenReturn(member);
         clubService.joinClub(responseDto.getClubId());
         Wallet wallet = walletRepository.findByUserWithoutLock(member).orElseThrow();
-        int prevPendingOut = wallet.getPendingOut();
+        Long prevPendingOut = wallet.getPendingOut();
 
         // when
         scheduleService.joinSchedule(responseDto.getClubId(), schedule.getScheduleId());
@@ -667,7 +667,7 @@ public class ScheduleServiceTest {
         // then
         UserSettlement userSettlement = userSettlementRepository.findByUserAndSchedule(member, schedule).orElseThrow();
         Wallet newWallet = walletRepository.findByUserWithoutLock(member).orElseThrow();
-        int newPendingOut = newWallet.getPendingOut();
+        Long newPendingOut = newWallet.getPendingOut();
 
         assertThat(userSettlement.getUser()).isEqualTo(member);
         assertThat(userSettlement.getSettlementStatus()).isEqualTo(SettlementStatus.HOLD_ACTIVE);
@@ -693,7 +693,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000000,
+                10000000L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -730,7 +730,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -768,7 +768,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -809,7 +809,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -847,7 +847,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -884,7 +884,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -923,7 +923,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -934,14 +934,14 @@ public class ScheduleServiceTest {
         Mockito.when(userService.getCurrentUser()).thenReturn(member);
         clubService.joinClub(responseDto.getClubId());
         scheduleService.joinSchedule(responseDto.getClubId(), schedule.getScheduleId());
-        int prevPendingOut = walletRepository.findByUserWithoutLock(member).orElseThrow().getPendingOut();
+        Long prevPendingOut = walletRepository.findByUserWithoutLock(member).orElseThrow().getPendingOut();
 
         // when
         scheduleService.leaveSchedule(responseDto.getClubId(), schedule.getScheduleId());
 
         // then
         Optional<UserSettlement> userSettlement = userSettlementRepository.findByUserAndSchedule(member, schedule);
-        int newPendingOut = walletRepository.findByUserWithoutLock(member).orElseThrow().getPendingOut();
+        Long newPendingOut = walletRepository.findByUserWithoutLock(member).orElseThrow().getPendingOut();
         assertThat(userSettlement).isEmpty();
         assertThat(prevPendingOut - newPendingOut).isEqualTo(schedule.getCost());
     }
@@ -965,7 +965,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -1005,7 +1005,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -1045,7 +1045,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -1078,7 +1078,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -1115,7 +1115,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -1127,13 +1127,13 @@ public class ScheduleServiceTest {
         clubService.joinClub(responseDto.getClubId());
         scheduleService.joinSchedule(responseDto.getClubId(), schedule.getScheduleId());
         UserSettlement userSettlement = userSettlementRepository.findByUserAndSchedule(member, schedule).orElseThrow();
-        int prevPendingOut = walletRepository.findByUserWithoutLock(member).orElseThrow().getPendingOut();
+        Long prevPendingOut = walletRepository.findByUserWithoutLock(member).orElseThrow().getPendingOut();
 
         // when & then: 정산 상태를 완료/대기 등으로 바꿔 해제 불가 상황 시뮬레이션
         userSettlement.updateStatus(SettlementStatus.PENDING);
         scheduleService.leaveSchedule(responseDto.getClubId(), schedule.getScheduleId());
         Wallet newWallet = walletRepository.findByUserWithoutLock(member).orElseThrow();
-        int newPendingOut = newWallet.getPendingOut();
+        Long newPendingOut = newWallet.getPendingOut();
 
         assertThat(newPendingOut).isEqualTo(prevPendingOut);
         assertThat(userScheduleRepository.findByUserAndSchedule(member, schedule)).isPresent();
@@ -1159,7 +1159,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -1205,7 +1205,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -1243,7 +1243,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -1283,7 +1283,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -1322,7 +1322,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 100,
                 LocalDateTime.now().minusHours(2)
         );
@@ -1358,7 +1358,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -1402,7 +1402,7 @@ public class ScheduleServiceTest {
         ScheduleCreateResponseDto s1 = scheduleService.createSchedule(clubId, new ScheduleRequestDto(
                 "온리원 정모 1",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().plusDays(1)
         ));
@@ -1410,7 +1410,7 @@ public class ScheduleServiceTest {
         ScheduleCreateResponseDto s2 = scheduleService.createSchedule(clubId, new ScheduleRequestDto(
                 "온리원 정모 2",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().plusDays(2)
         ));
@@ -1418,7 +1418,7 @@ public class ScheduleServiceTest {
         ScheduleCreateResponseDto s3 = scheduleService.createSchedule(clubId, new ScheduleRequestDto(
                 "온리원 정모 3",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().plusDays(3)
         ));
@@ -1455,7 +1455,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );
@@ -1509,7 +1509,7 @@ public class ScheduleServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원의 정모",
                 "구름스퀘어 강남",
-                10000,
+                10000L,
                 100,
                 LocalDateTime.now().plusHours(2)
         );

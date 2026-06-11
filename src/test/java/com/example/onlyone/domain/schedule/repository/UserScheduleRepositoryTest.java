@@ -62,7 +62,7 @@ class UserScheduleRepositoryTest {
                         .club(club)
                         .name("테스트 스케줄")
                         .location("장소")
-                        .cost(1000)
+                        .cost(1000L)
                         .userLimit(10)
                         .scheduleStatus(ScheduleStatus.READY)
                         .scheduleTime(LocalDateTime.now().plusDays(1))

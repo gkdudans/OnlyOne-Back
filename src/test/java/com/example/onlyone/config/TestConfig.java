@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+
+import java.util.List;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -54,7 +57,13 @@ public class TestConfig {
     @Bean
     @Primary
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        // Mock JWT 필터로 인증 처리를 우회
         return mock(JwtAuthenticationFilter.class);
+    }
+
+    @Bean
+    @Primary
+    @SuppressWarnings("unchecked")
+    public DefaultRedisScript<List> likeToggleScript() {
+        return mock(DefaultRedisScript.class);
     }
 }

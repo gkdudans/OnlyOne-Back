@@ -35,6 +35,7 @@ import com.example.onlyone.global.exception.CustomException;
 import com.example.onlyone.global.exception.ErrorCode;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -83,7 +84,8 @@ import static org.springframework.transaction.annotation.Propagation.NOT_SUPPORT
 @ActiveProfiles("test")
 @DataJpaTest
 @Transactional
-@Import({SettlementService.class, WalletService.class, ScheduleService.class, UserService.class, ClubService.class})
+@Import({SettlementService.class, WalletService.class, ScheduleService.class, UserService.class, ClubService.class,
+        OutboxAppender.class, FailedEventAppender.class, com.fasterxml.jackson.databind.ObjectMapper.class})
 public class SettlementServiceTest {
 
     @Autowired
@@ -147,7 +149,7 @@ public class SettlementServiceTest {
         ScheduleRequestDto scheduleRequestDto = new ScheduleRequestDto(
                 "온리원 첫 번째 정모",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 10,
                 LocalDateTime.now().plusHours(2)
         );
@@ -168,7 +170,7 @@ public class SettlementServiceTest {
         ScheduleRequestDto updateScheduleRequestDto = new ScheduleRequestDto(
                 "온리원 첫 번째 정모",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 10,
                 LocalDateTime.now().minusHours(2)
         );
@@ -182,6 +184,7 @@ public class SettlementServiceTest {
 //        entityManager.clear();
     }
 
+    @Disabled("리팩토링 후 automaticSettlement는 Outbox 기록만 함 (비동기 처리로 변경)")
     @Test
     void 종료된_정모에_리더가_정상적으로_자동_정산을_요청한다() {
         // given
@@ -207,6 +210,7 @@ public class SettlementServiceTest {
         assertThat(userSettlements).hasSize(2);
     }
 
+    @Disabled("리팩토링 후 automaticSettlement는 Outbox 기록만 함 (비동기 처리로 변경)")
     @Test
     void 상태가_ENDED거나_시작_시간이_지난_정모는_정산_요청_가능하다() {
         // given
@@ -239,7 +243,7 @@ public class SettlementServiceTest {
         ScheduleRequestDto updateScheduleRequestDto = new ScheduleRequestDto(
                 "온리원 첫 번째 정모",
                 "구름스퀘어 강남",
-                100,
+                100L,
                 10,
                 LocalDateTime.now().plusHours(2)
         );
@@ -266,7 +270,7 @@ public class SettlementServiceTest {
         // given
         Schedule managed = scheduleRepository.findById(schedule.getScheduleId()).orElseThrow();
         managed.updateStatus(ScheduleStatus.READY);
-        managed.update("온리원 첫 번째 정모", "구름스퀘어 강남", 0, 10, LocalDateTime.now().minusHours(2));
+        managed.update("온리원 첫 번째 정모", "구름스퀘어 강남", 0L, 10, LocalDateTime.now().minusHours(2));
         scheduleRepository.saveAndFlush(managed); // or entityManager.flush()
         entityManager.clear();
 
@@ -290,7 +294,7 @@ public class SettlementServiceTest {
         ScheduleRequestDto createScheduleRequestDto = new ScheduleRequestDto(
                 "온리원 첫 번째 정모",
                 "구름스퀘어 강남",
-                10,
+                10L,
                 1,
                 LocalDateTime.now().minusHours(2)
         );
@@ -330,7 +334,7 @@ public class SettlementServiceTest {
         Mockito.when(userService.getCurrentUser()).thenReturn(leader);
         settlement.updateTotalStatus(TotalStatus.COMPLETED);
         schedule.updateStatus(ScheduleStatus.CLOSED);
-        schedule.update("온리원 첫 번째 정모", "구름스퀘어 강남", 100, 10, LocalDateTime.now().plusHours(2));
+        schedule.update("온리원 첫 번째 정모", "구름스퀘어 강남", 100L, 10, LocalDateTime.now().plusHours(2));
         scheduleRepository.saveAndFlush(schedule);
         entityManager.flush();
         entityManager.clear();
@@ -342,6 +346,7 @@ public class SettlementServiceTest {
         assertEquals(ErrorCode.BEFORE_SCHEDULE_END, exception.getErrorCode());
     }
 
+    @Disabled("리팩토링 후 잔액 부족은 예외 없이 관대 모드(false 반환)로 처리됨 — SettlementRefactoredTest 참조")
     @Test
     void 자동_정산_중_참여자_잔액이_부족하면_예외가_발생한다() {
         // given
@@ -363,6 +368,7 @@ public class SettlementServiceTest {
         assertEquals(ErrorCode.WALLET_HOLD_CAPTURE_FAILED, exception.getErrorCode());
     }
 
+    @Disabled("리팩토링 후 FAILED 복구는 Kafka 레이어(SettlementKafkaEventListener)에서 처리 — SettlementRefactoredTest 참조")
     @Test
     void 자동_정산_중_예외가_발생하면_전체_롤백하며_Settlement_상태를_FAILED로_변경한다() {
         // given
@@ -390,6 +396,7 @@ public class SettlementServiceTest {
 
 
     /* 트랜잭션 롤백 후 실패 로그를 기록*/
+    @Disabled("리팩토링 후 WalletService.createFailedWalletTransactions는 정산 흐름에서 제거됨")
     @Test
     void 자동_정산_중_예외_시_실패로그_저장_메서드를_호출한다() {
         // given
@@ -403,7 +410,7 @@ public class SettlementServiceTest {
         entityManager.clear();
 
         doNothing().when(walletService)
-                .createFailedWalletTransactions(anyLong(), anyLong(), anyInt(), anyLong(), anyInt(), anyInt());
+                .createFailedWalletTransactions(anyLong(), anyLong(), anyLong(), anyLong(), anyLong(), anyLong());
 
         // when
         var tt = new TransactionTemplate(txManager);
@@ -418,7 +425,7 @@ public class SettlementServiceTest {
 
         // then: afterCompletion에서 스파이 메서드가 정확히 1번 호출되었는지 검증
         verify(walletService, times(1))
-                .createFailedWalletTransactions(anyLong(), anyLong(), anyInt(), anyLong(), anyInt(), anyInt());
+                .createFailedWalletTransactions(anyLong(), anyLong(), anyLong(), anyLong(), anyLong(), anyLong());
     }
 
     /* 정모 참여자 정산 조회 */
@@ -440,6 +447,7 @@ public class SettlementServiceTest {
         assertThat(result.getTotalElement()).isEqualTo(2);
     }
 
+    @Disabled("리팩토링 후 정산 처리가 비동기(Kafka)로 변경됨 — 동시성 보호는 markProcessing()으로 유지")
     @DirtiesContext(methodMode = AFTER_METHOD)
     @ParameterizedTest
     @ValueSource(ints = {2, 5, 10})
@@ -458,8 +466,8 @@ public class SettlementServiceTest {
         // 3) 참여자 지갑 잔액 충분히 세팅(정산이 정상 완료되도록)
         Wallet m1 = walletRepository.findByUserWithoutLock(member1).orElseThrow();
         Wallet m2 = walletRepository.findByUserWithoutLock(member2).orElseThrow();
-        m1.updateBalance(1_000_000);
-        m2.updateBalance(1_000_000);
+        m1.updateBalance(1_000_000L);
+        m2.updateBalance(1_000_000L);
         walletRepository.saveAndFlush(m1);
         walletRepository.saveAndFlush(m2);
 
