@@ -94,6 +94,8 @@ public class SettlementService {
         if (updated != 1) {
             throw new CustomException(ErrorCode.ALREADY_SETTLING_SCHEDULE);
         }
+        // native UPDATE 후 JPA 캐시 갱신 (clearAutomatically=true로 인한 detach 상태 동기화)
+        settlement.updateTotalStatus(TotalStatus.IN_PROGRESS);
 
         // 참가자 ID 목록과 수를 한 번에 조회 (성능 개선)
         List<Long> targetUserIds =
