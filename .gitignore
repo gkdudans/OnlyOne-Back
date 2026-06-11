@@ -9,7 +9,7 @@ src/main/generated/
 !**/src/main/**/build/
 !**/src/test/**/build/
 .claude/docs
-.claude/docs/plan.md
+.claude/rules/plan.md
 
 ### STS ###
 .apt_generated
